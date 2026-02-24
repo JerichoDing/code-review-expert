@@ -9,14 +9,14 @@ description: "Expert code review of current git changes with a senior engineer l
 
 Perform a structured review of the current git changes with focus on SOLID, architecture, removal candidates, and security risks. Default to review-only output unless the user asks to implement changes.
 
-## Severity Levels
+## 严重级别
 
-| Level | Name | Description | Action |
-|-------|------|-------------|--------|
-| **P0** | Critical | Security vulnerability, data loss risk, correctness bug | Must block merge |
-| **P1** | High | Logic error, significant SOLID violation, performance regression | Should fix before merge |
-| **P2** | Medium | Code smell, maintainability concern, minor SOLID violation | Fix in this PR or create follow-up |
-| **P3** | Low | Style, naming, minor suggestion | Optional improvement |
+| 级别 | 名称 | 描述 | 处理方式 |
+|------|------|------|---------|
+| **P0** | 严重 | 安全漏洞、数据丢失风险、逻辑错误 | 直接修改+通知用户 |
+| **P1** | 高 | 逻辑错误、严重SOLID违规、性能衰退 | 直接修改+通知用户 |
+| **P2** | 中 | 代码坏味道、可维护性问题、轻微SOLID违规 | 建议修改或创建后续任务 |
+| **P3** | 低 | 样式、命名、小建议 | 可选改进 |
 
 ## Workflow
 
@@ -71,78 +71,77 @@ Perform a structured review of the current git changes with focus on SOLID, arch
   - **Boundary conditions**: null/undefined handling, empty collections, numeric boundaries, off-by-one
 - Flag issues that may cause silent failures or production incidents.
 
-### 6) Output format
+### 6) 输出格式
 
-Structure your review as follows:
+**重要**: P0 和 P1 级别的问题应直接在代码中修改，并在报告中告知用户"已自动修改"。
 
-```markdown
-## Code Review Summary
-
-**Files reviewed**: X files, Y lines changed
-**Overall assessment**: [APPROVE / REQUEST_CHANGES / COMMENT]
-
----
-
-## Findings
-
-### P0 - Critical
-(none or list)
-
-### P1 - High
-1. **[file:line]** Brief title
-  - Description of issue
-  - Suggested fix
-
-### P2 - Medium
-2. (continue numbering across sections)
-  - ...
-
-### P3 - Low
-...
-
----
-
-## Removal/Iteration Plan
-(if applicable)
-
-## Additional Suggestions
-(optional improvements, not blocking)
-```
-
-**Inline comments**: Use this format for file-specific findings:
-```
-::code-comment{file="path/to/file.ts" line="42" severity="P1"}
-Description of the issue and suggested fix.
-::
-```
-
-**Clean review**: If no issues found, explicitly state:
-- What was checked
-- Any areas not covered (e.g., "Did not verify database migrations")
-- Residual risks or recommended follow-up tests
-
-### 7) Next steps confirmation
-
-After presenting findings, ask user how to proceed:
+使用中文表格形式输出审查结果：
 
 ```markdown
+## 代码审查报告
+
+**审查信息**: X 个文件，Y 行变更
+**整体评估**: [批准 / 需要修改 / 仅注释]
+
 ---
 
-## Next Steps
+## 发现的问题
 
-I found X issues (P0: _, P1: _, P2: _, P3: _).
+### P0 - 严重问题
 
-**How would you like to proceed?**
+| 文件:行号 | 问题标题 | 描述 | 状态 |
+|----------|--------|------|------|
+| file.ts:10 | XXX | 问题描述 | ✅ 已修改 |
 
-1. **Fix all** - I'll implement all suggested fixes
-2. **Fix P0/P1 only** - Address critical and high priority issues
-3. **Fix specific items** - Tell me which issues to fix
-4. **No changes** - Review complete, no implementation needed
+### P1 - 高级问题
 
-Please choose an option or provide specific instructions.
+| 文件:行号 | 问题标题 | 描述 | 状态 |
+|----------|--------|------|------|
+| file.ts:20 | XXX | 问题描述 | ✅ 已修改 |
+
+### P2 - 中级问题
+
+| 文件:行号 | 问题标题 | 描述 | 建议 |
+|----------|--------|------|------|
+| file.ts:30 | XXX | 问题描述 | 建议修改方案 |
+
+### P3 - 低级问题
+
+| 文件:行号 | 问题标题 | 描述 | 建议 |
+|----------|--------|------|------|
+| file.ts:40 | XXX | 问题描述 | 建议改进 |
+
+---
+
+## 移除/迭代计划
+（如适用）
+
+## 补充建议
+（可选改进，非阻塞项）
 ```
 
-**Important**: Do NOT implement any changes until user explicitly confirms. This is a review-first workflow.
+**清晰审查**: 如未发现问题，明确说明：
+- 审查内容
+- 未覆盖的区域（例如"未验证数据库迁移"）
+- 剩余风险或建议的后续测试
+
+### 7) 完成通知
+
+发现问题后，向用户通知结果：
+
+```markdown
+---
+
+## 审查完成
+
+发现 X 个问题（P0: _, P1: _, P2: _, P3: _）
+
+**修改状态**: P0 和 P1 级问题已自动修改 ✅
+
+**其他问题**: 请根据建议进行评估和修改
+```
+
+**重要**: P0 和 P1 自动修改并通知，P2 和 P3 作为建议提供。
 
 ## Resources
 

@@ -1,7 +1,88 @@
 interface:
   display_name: "Code Review Expert"
-  short_description: "Senior engineer code review: SOLID, security, performance, error handling"
-  default_prompt: "Review current git changes for SOLID violations, security risks, race conditions, error handling issues, performance problems, and boundary condition bugs."
+  short_description: "资深工程师代码审查：SOLID 规范、安全、性能、错误处理"
+  default_prompt: "审查当前 git 变更的 SOLID 违规、安全风险、竞态条件、错误处理问题、性能问题和边界条件 bug。P0 和 P1 级问题直接修改，并在报告中通知用户。"
 
-# Agent-agnostic skill - works with any LLM provider.
-# No provider-specific configuration required.
+# 安装时配置
+installation_config:
+  required_settings:
+    # 编程语言 - 支持多选
+    - name: "programming_languages"
+      type: "multi-select"
+      label: "选择编程语言（支持多选）"
+      description: "选择你的项目使用的编程语言"
+      options:
+        - "TypeScript/JavaScript"
+        - "Python"
+        - "Go"
+        - "Java"
+        - "C#"
+        - "Rust"
+        - "C/C++"
+        - "PHP"
+        - "Ruby"
+        - "其他"
+      required: true
+    
+    # 框架 - 支持多选
+    - name: "frameworks"
+      type: "multi-select"
+      label: "选择框架（支持多选，可选）"
+      description: "选择你的项目使用的框架（可不选）"
+      options:
+        # 前端框架
+        - label: "前端框架"
+          group:
+            - "React"
+            - "Vue"
+            - "Angular"
+            - "Svelte"
+            - "Next.js"
+            - "Nuxt"
+        # 后端框架
+        - label: "后端框架"
+          group:
+            - "Node.js/Express"
+            - "Koa"
+            - "Django"
+            - "FastAPI"
+            - "Gin"
+            - "Fiber"
+            - "Spring"
+        # 移动框架
+        - label: "移动框架"
+          group:
+            - "React Native"
+            - "Flutter"
+            - "Swift"
+            - "Kotlin"
+      required: false
+    
+    # UI 组件库 - 支持多选
+    - name: "ui_libraries"
+      type: "multi-select"
+      label: "选择 UI 组件库（仅前端项目）"
+      description: "选择你的项目使用的 UI 组件库，帮助 AI 提供更精确的代码建议"
+      options:
+        - "Ant Design (antd)"
+        - "Vben Admin"
+        - "Element UI"
+        - "Bootstrap"
+        - "Tailwind CSS"
+        - "其他"
+      required: false
+
+# 审查策略配置
+review_policy:
+  output_language: "Chinese"
+  output_format: "Table"
+  
+  # P0 和 P1 级别自动修改
+  auto_fix_levels: ["P0", "P1"]
+  auto_fix_action: "直接在代码中修改，在报告中通知用户已修改 ✅"
+  
+  # P2 和 P3 作为建议
+  suggest_levels: ["P2", "P3"]
+
+# 与任何 LLM 提供商兼容的代理无关的技能
+# 不需要提供商特定的配置
