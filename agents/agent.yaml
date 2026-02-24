@@ -3,70 +3,109 @@ interface:
   short_description: "资深工程师代码审查：SOLID 规范、安全、性能、错误处理"
   default_prompt: "审查当前 git 变更的 SOLID 违规、安全风险、竞态条件、错误处理问题、性能问题和边界条件 bug。P0 和 P1 级问题直接修改，并在报告中通知用户。"
 
-# 用户配置 - 安装时设置
-settings:
-  - id: "programming_languages"
+# 参数配置 - 用户安装时会被要求填写
+parameters:
+  - name: "programming_languages"
     title: "编程语言"
     description: "选择你的项目使用的编程语言（支持多选）"
     type: "multi-select"
     required: true
+    default: []
     options:
-      - { label: "TypeScript/JavaScript", value: "typescript" }
-      - { label: "Python", value: "python" }
-      - { label: "Go", value: "go" }
-      - { label: "Java", value: "java" }
-      - { label: "C#", value: "csharp" }
-      - { label: "Rust", value: "rust" }
-      - { label: "C/C++", value: "cpp" }
-      - { label: "PHP", value: "php" }
-      - { label: "Ruby", value: "ruby" }
-      - { label: "其他", value: "other" }
-  
-  - id: "frameworks"
+      - label: "TypeScript/JavaScript"
+        value: "typescript"
+      - label: "Python"
+        value: "python"
+      - label: "Go"
+        value: "go"
+      - label: "Java"
+        value: "java"
+      - label: "C#"
+        value: "csharp"
+      - label: "Rust"
+        value: "rust"
+      - label: "C/C++"
+        value: "cpp"
+      - label: "PHP"
+        value: "php"
+      - label: "Ruby"
+        value: "ruby"
+      - label: "其他"
+        value: "other"
+
+  - name: "frameworks"
     title: "框架配置"
     description: "选择你的项目使用的框架（可选，支持多选）"
     type: "multi-select"
     required: false
-    groupOptions:
-      - groupName: "前端框架"
+    default: []
+    groups:
+      - name: "前端框架"
         options:
-          - { label: "React", value: "react" }
-          - { label: "Vue", value: "vue" }
-          - { label: "Angular", value: "angular" }
-          - { label: "Svelte", value: "svelte" }
-          - { label: "Next.js", value: "nextjs" }
-          - { label: "Nuxt", value: "nuxt" }
-      - groupName: "后端框架"
+          - label: "React"
+            value: "react"
+          - label: "Vue"
+            value: "vue"
+          - label: "Angular"
+            value: "angular"
+          - label: "Svelte"
+            value: "svelte"
+          - label: "Next.js"
+            value: "nextjs"
+          - label: "Nuxt"
+            value: "nuxt"
+      - name: "后端框架"
         options:
-          - { label: "Node.js/Express", value: "express" }
-          - { label: "Koa", value: "koa" }
-          - { label: "Django", value: "django" }
-          - { label: "FastAPI", value: "fastapi" }
-          - { label: "Gin", value: "gin" }
-          - { label: "Fiber", value: "fiber" }
-          - { label: "Spring", value: "spring" }
-          - { label: "ASP.NET", value: "aspnet" }
-      - groupName: "移动框架"
+          - label: "Node.js/Express"
+            value: "express"
+          - label: "Koa"
+            value: "koa"
+          - label: "Django"
+            value: "django"
+          - label: "FastAPI"
+            value: "fastapi"
+          - label: "Gin"
+            value: "gin"
+          - label: "Fiber"
+            value: "fiber"
+          - label: "Spring"
+            value: "spring"
+          - label: "ASP.NET"
+            value: "aspnet"
+      - name: "移动框架"
         options:
-          - { label: "React Native", value: "react-native" }
-          - { label: "Flutter", value: "flutter" }
-          - { label: "Swift", value: "swift" }
-          - { label: "Kotlin", value: "kotlin" }
-  
-  - id: "ui_libraries"
+          - label: "React Native"
+            value: "react-native"
+          - label: "Flutter"
+            value: "flutter"
+          - label: "Swift"
+            value: "swift"
+          - label: "Kotlin"
+            value: "kotlin"
+
+  - name: "ui_libraries"
     title: "UI 组件库"
     description: "选择你的项目使用的 UI 组件库（可选，支持多选）- 帮助 AI 提供更精确的代码建议"
     type: "multi-select"
     required: false
+    default: []
     options:
-      - { label: "Ant Design (antd)", value: "antd" }
-      - { label: "Vben Admin", value: "vben" }
-      - { label: "Element UI", value: "element-ui" }
-      - { label: "Material-UI (MUI)", value: "mui" }
-      - { label: "Bootstrap", value: "bootstrap" }
-      - { label: "Tailwind CSS", value: "tailwind" }
-      - { label: "Chakra UI", value: "chakra" }
-      - { label: "其他", value: "other" }
+      - label: "Ant Design (antd)"
+        value: "antd"
+      - label: "Vben Admin"
+        value: "vben"
+      - label: "Element UI"
+        value: "element-ui"
+      - label: "Material-UI (MUI)"
+        value: "mui"
+      - label: "Bootstrap"
+        value: "bootstrap"
+      - label: "Tailwind CSS"
+        value: "tailwind"
+      - label: "Chakra UI"
+        value: "chakra"
+      - label: "其他"
+        value: "other"
 
 # 审查策略配置
 review_policy:
